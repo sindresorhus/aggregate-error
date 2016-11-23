@@ -17,8 +17,7 @@ class AggregateError extends Error {
 		message = '\n' + indentString(message, 4);
 
 		super(message);
-		this.name = 'AggregateError';
-		this.message = message;
+		this.name = this.constructor.name;
 		Object.defineProperty(this, '_errors', {value: errors});
 	}
 	* [Symbol.iterator]() {
