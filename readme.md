@@ -19,7 +19,7 @@ const err = new AggregateError([new Error('foo'), 'bar']);
 
 throw err;
 /*
-AggregateError: 
+AggregateError:
     Error: foo
         at Object.<anonymous> (/Users/sindresorhus/dev/aggregate-error/example.js:3:33)
     Error: bar
