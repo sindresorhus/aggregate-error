@@ -15,7 +15,7 @@ $ npm install --save aggregate-error
 ```js
 const AggregateError = require('aggregate-error');
 
-const err = new AggregateError([new Error('foo'), 'bar']);
+const err = new AggregateError([new Error('foo'), 'bar', {message: 'baz'}]);
 
 throw err;
 /*
@@ -23,6 +23,8 @@ AggregateError:
     Error: foo
         at Object.<anonymous> (/Users/sindresorhus/dev/aggregate-error/example.js:3:33)
     Error: bar
+        at Object.<anonymous> (/Users/sindresorhus/dev/aggregate-error/example.js:3:13)
+    Error: baz
         at Object.<anonymous> (/Users/sindresorhus/dev/aggregate-error/example.js:3:13)
     at AggregateError (/Users/sindresorhus/dev/aggregate-error/index.js:19:3)
     at Object.<anonymous> (/Users/sindresorhus/dev/aggregate-error/example.js:3:13)
@@ -41,6 +43,7 @@ for (const el of err) {
 }
 //=> [Error: foo]
 //=> [Error: bar]
+//=> [Error: baz]
 ```
 
 
@@ -48,11 +51,14 @@ for (const el of err) {
 
 ### AggregateError(errors)
 
-Returns an `Error` that is also an [`iterator`](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Iterators_and_Generators) for the individual errors.
+Returns an `Error` that is also an [`Iterable`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators#Iterables) for the individual errors.
 
 #### errors
 
-Type: `Iterable<Error|string>`
+Type: `Iterable<Error|Object|string>`
+
+If a string, a new `Error` is created with the string as the error message.<br>
+If a non-Error object, a new `Error` is created with all properties from the object copied over.
 
 
 ## License

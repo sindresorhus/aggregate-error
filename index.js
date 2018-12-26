@@ -11,7 +11,16 @@ class AggregateError extends Error {
 			throw new TypeError(`Expected input to be iterable, got ${typeof errors}`);
 		}
 
-		errors = Array.from(errors).map(err => err instanceof Error ? err : new Error(err));
+		errors = Array.from(errors).map(err => {
+			if (err instanceof Error) {
+				return err;
+			}
+			if (err && typeof err === 'object') {
+				// Handle plain error objects with message property and/or possibly other metadata
+				return Object.assign(new Error(err.message), err);
+			}
+			return new Error(err);
+		});
 
 		let message = errors.map(err => cleanInternalStack(cleanStack(err.stack))).join('\n');
 		message = '\n' + indentString(message, 4);
