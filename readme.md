@@ -55,7 +55,7 @@ Returns an `Error` that is also an [`Iterable`](https://developer.mozilla.org/en
 
 #### errors
 
-Type: `Iterable<Error|Object|string>`
+Type: `Array<Error|Object|string>`
 
 If a string, a new `Error` is created with the string as the error message.<br>
 If a non-Error object, a new `Error` is created with all properties from the object copied over.

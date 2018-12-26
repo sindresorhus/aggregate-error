@@ -6,9 +6,8 @@ const cleanInternalStack = stack => stack.replace(/\s+at .*aggregate-error\/inde
 
 class AggregateError extends Error {
 	constructor(errors) {
-		// Even though strings are iterable, we don't allow them to prevent subtle user mistakes
-		if (!errors[Symbol.iterator] || typeof errors === 'string') {
-			throw new TypeError(`Expected input to be iterable, got ${typeof errors}`);
+		if (!Array.isArray(errors)) {
+			throw new TypeError(`Expected input to be an Array, got ${typeof errors}`);
 		}
 
 		errors = [...errors].map(error => {
