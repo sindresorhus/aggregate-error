@@ -11,22 +11,25 @@ class AggregateError extends Error {
 			throw new TypeError(`Expected input to be iterable, got ${typeof errors}`);
 		}
 
-		errors = Array.from(errors).map(err => {
-			if (err instanceof Error) {
-				return err;
+		errors = [...errors].map(error => {
+			if (error instanceof Error) {
+				return error;
 			}
-			if (err && typeof err === 'object') {
+
+			if (error !== null && typeof error === 'object') {
 				// Handle plain error objects with message property and/or possibly other metadata
-				return Object.assign(new Error(err.message), err);
+				return Object.assign(new Error(error.message), error);
 			}
-			return new Error(err);
+
+			return new Error(error);
 		});
 
-		let message = errors.map(err => cleanInternalStack(cleanStack(err.stack))).join('\n');
+		let message = errors.map(error => cleanInternalStack(cleanStack(error.stack))).join('\n');
 		message = '\n' + indentString(message, 4);
-
 		super(message);
+
 		this.name = 'AggregateError';
+
 		Object.defineProperty(this, '_errors', {value: errors});
 	}
 

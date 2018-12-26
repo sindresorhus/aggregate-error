@@ -6,7 +6,7 @@
 ## Install
 
 ```
-$ npm install --save aggregate-error
+$ npm install aggregate-error
 ```
 
 
@@ -15,9 +15,9 @@ $ npm install --save aggregate-error
 ```js
 const AggregateError = require('aggregate-error');
 
-const err = new AggregateError([new Error('foo'), 'bar', {message: 'baz'}]);
+const error = new AggregateError([new Error('foo'), 'bar', {message: 'baz'}]);
 
-throw err;
+throw error;
 /*
 AggregateError:
     Error: foo
@@ -38,8 +38,8 @@ AggregateError:
     at startup (bootstrap_node.js:149:9)
 */
 
-for (const el of err) {
-	console.log(el);
+for (const individualError of error) {
+	console.log(individualError);
 }
 //=> [Error: foo]
 //=> [Error: bar]
