@@ -15,7 +15,7 @@ $ npm install --save aggregate-error
 ```js
 const AggregateError = require('aggregate-error');
 
-const err = new AggregateError([new Error('foo'), 'bar', { message: 'baz' }]);
+const err = new AggregateError([new Error('foo'), 'bar', {message: 'baz'}]);
 
 throw err;
 /*
@@ -51,14 +51,15 @@ for (const el of err) {
 
 ### AggregateError(errors)
 
-Returns an `Error` that is also an [`iteratable`](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Iterators_and_Generators) for the individual errors.
+Returns an `Error` that is also an [`Iterable`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators#Iterables) for the individual errors.
 
 #### errors
 
-Type: `Iterable<Error|string|object>`
+Type: `Iterable<Error|Object|string>`
 
-If a string, a new Error is created with the string as the error message.
-If a non-Error object, a new Error is created with all properties from the object copied over.
+If a string, a new `Error` is created with the string as the error message.<br>
+If a non-Error object, a new `Error` is created with all properties from the object copied over.
+
 
 ## License
 
