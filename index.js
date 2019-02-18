@@ -3,6 +3,7 @@ const indentString = require('indent-string');
 const cleanStack = require('clean-stack');
 
 const cleanInternalStack = stack => stack.replace(/\s+at .*aggregate-error\/index.js:\d+:\d+\)?/g, '');
+const isString = value => typeof value === 'string' || value instanceof String;
 
 class AggregateError extends Error {
 	constructor(errors) {
@@ -23,7 +24,14 @@ class AggregateError extends Error {
 			return new Error(error);
 		});
 
-		let message = errors.map(error => cleanInternalStack(cleanStack(error.stack))).join('\n');
+		let message = errors
+			.map(error => {
+				// Unfortunately stack is not standardized as a property of Error instances
+				// which makes it necessary to explicitly check for it and its type.
+				// In case the stack property is missing the stringified error should be used instead.
+				return isString(error.stack) ? cleanInternalStack(cleanStack(error.stack)) : String(error);
+			})
+			.join('\n');
 		message = '\n' + indentString(message, 4);
 		super(message);
 
