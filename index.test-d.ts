@@ -1,5 +1,5 @@
-import {expectType} from 'tsd-check';
-import AggregateError from '.';
+import {expectType} from 'tsd';
+import AggregateError = require('.');
 
 const aggregateError = new AggregateError([
 	new Error('foo'),

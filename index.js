@@ -45,4 +45,3 @@ class AggregateError extends Error {
 }
 
 module.exports = AggregateError;
-module.exports.default = AggregateError;
