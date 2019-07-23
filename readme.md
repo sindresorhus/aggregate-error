@@ -49,7 +49,7 @@ for (const individualError of error) {
 
 ## API
 
-### AggregateError(errors)
+### AggregateError(errors, options?)
 
 Returns an `Error` that is also an [`Iterable`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators#Iterables) for the individual errors.
 
@@ -59,6 +59,17 @@ Type: `Array<Error|Object|string>`
 
 If a string, a new `Error` is created with the string as the error message.<br>
 If a non-Error object, a new `Error` is created with all properties from the object copied over.
+
+#### options
+
+Type: `object`
+
+##### flatten
+
+Type: `boolean`<br>
+Default: `false`
+
+If `true`, nested `AggregateError`s will be flattened.
 
 
 ## License
