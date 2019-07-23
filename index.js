@@ -5,23 +5,29 @@ const cleanStack = require('clean-stack');
 const cleanInternalStack = stack => stack.replace(/\s+at .*aggregate-error\/index.js:\d+:\d+\)?/g, '');
 
 class AggregateError extends Error {
-	constructor(errors) {
+	constructor(errors, options) {
 		if (!Array.isArray(errors)) {
 			throw new TypeError(`Expected input to be an Array, got ${typeof errors}`);
 		}
 
-		errors = [...errors].map(error => {
-			if (error instanceof Error) {
-				return error;
-			}
+		const flatten = options && Boolean(options.flatten);
 
-			if (error !== null && typeof error === 'object') {
-				// Handle plain error objects with message property and/or possibly other metadata
-				return Object.assign(new Error(error.message), error);
+		function * transformErrors(errors) {
+			for (const error of errors) {
+				if (flatten && error instanceof AggregateError) {
+					yield * transformErrors(error);
+				} else if (error instanceof Error) {
+					yield error;
+				} else if (error !== null && typeof error === 'object') {
+					// Handle plain error objects with message property and/or possibly other metadata
+					yield Object.assign(new Error(error.message), error);
+				} else {
+					yield new Error(error);
+				}
 			}
+		}
 
-			return new Error(error);
-		});
+		errors = [...transformErrors(errors)];
 
 		let message = errors
 			.map(error => {

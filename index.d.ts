@@ -43,9 +43,17 @@ declare class AggregateError extends Error implements Iterable<Error> {
 	//=> [Error: baz]
 	```
 	*/
-	constructor(errors: ReadonlyArray<Error | {[key: string]: unknown} | string>);
+	constructor(errors: ReadonlyArray<Error | {[key: string]: unknown} | string>, options?: AggregateError.Options);
 
 	[Symbol.iterator](): IterableIterator<Error>;
+}
+
+declare namespace AggregateError {
+	/** Options for the AggregateError constructor. */
+	interface Options {
+		/** If true, nested AggregateErrors will be flattened. */
+		flatten?: boolean;
+	}
 }
 
 export = AggregateError;

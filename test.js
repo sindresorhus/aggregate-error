@@ -51,3 +51,30 @@ test('gracefully handle Error instances without a stack', t => {
 		new StacklessError('stackless')
 	]);
 });
+
+test('flattens nested AggregateErrors when told to', t => {
+	const testFlatErrors = [
+		new Error('first error'),
+		new Error('second error'),
+		new Error('third error')
+	];
+
+	const testErrors = [
+		new AggregateError([
+			testFlatErrors[0],
+			testFlatErrors[1]
+		]),
+		testFlatErrors[2]
+	];
+
+	const flatError = new AggregateError(testErrors, {flatten: true});
+	const flatErrors = [...flatError];
+	t.deepEqual(flatErrors, testFlatErrors);
+
+	const nestedError = new AggregateError(testErrors);
+	const nestedErrors = [...nestedError];
+	t.deepEqual(nestedErrors, testErrors);
+
+	console.log('Flattened:', flatError);
+	console.log('Not flattened:', nestedError);
+});
