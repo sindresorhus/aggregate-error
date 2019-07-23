@@ -43,7 +43,7 @@ declare class AggregateError extends Error implements Iterable<Error> {
 	//=> [Error: baz]
 	```
 	*/
-	constructor(errors: ReadonlyArray<Error | {[key: string]: unknown} | string>);
+	constructor(errors: Iterable<Error | {[key: string]: unknown} | string>);
 
 	[Symbol.iterator](): IterableIterator<Error>;
 }

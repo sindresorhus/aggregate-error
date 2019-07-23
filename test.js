@@ -51,3 +51,22 @@ test('gracefully handle Error instances without a stack', t => {
 		new StacklessError('stackless')
 	]);
 });
+
+test('understands non-array iterables', t => {
+	function * generateErrors() {
+		yield new Error('first error');
+		yield new Error('second error');
+		yield new Error('third error');
+	}
+
+	const error = new AggregateError(generateErrors());
+
+	console.log(error);
+
+	const errors = [...error];
+	t.is(errors.length, 3);
+	errors.forEach(e => t.truthy(e instanceof Error));
+	t.is(errors[0].message, 'first error');
+	t.is(errors[1].message, 'second error');
+	t.is(errors[2].message, 'third error');
+});
