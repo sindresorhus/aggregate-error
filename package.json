@@ -22,7 +22,6 @@
 	"keywords": [
 		"aggregate",
 		"error",
-		"err",
 		"combine",
 		"multiple",
 		"many",
@@ -32,11 +31,11 @@
 	],
 	"dependencies": {
 		"clean-stack": "^2.0.0",
-		"indent-string": "^3.2.0"
+		"indent-string": "^4.0.0"
 	},
 	"devDependencies": {
-		"ava": "^1.4.1",
+		"ava": "^2.4.0",
 		"tsd": "^0.7.1",
-		"xo": "^0.24.0"
+		"xo": "^0.25.3"
 	}
 }
