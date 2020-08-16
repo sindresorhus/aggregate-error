@@ -12,3 +12,14 @@ expectType<IterableIterator<Error>>(aggregateError[Symbol.iterator]());
 for (const error of aggregateError) {
 	expectType<Error>(error);
 }
+
+interface CustomError extends Error {
+	foo: string;
+}
+const customAggregateError = new AggregateError<CustomError>([
+	new Error('foo')
+]);
+
+for (const error of customAggregateError) {
+	expectType<string>(error.foo);
+}
