@@ -1,8 +1,7 @@
 /**
 Create an error from multiple errors.
 */
-declare class AggregateError<T extends Error = Error> extends Error
-	implements Iterable<T> {
+declare class AggregateError<T extends Error = Error> extends Error implements Iterable<T> {
 	readonly name: 'AggregateError';
 
 	/**
