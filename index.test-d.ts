@@ -13,11 +13,17 @@ for (const error of aggregateError) {
 	expectType<Error>(error);
 }
 
-interface CustomError extends Error {
-	foo: string;
+class CustomError extends Error {
+	public foo: string;
+
+	constructor(message: string) {
+		super(message)
+		this.name = 'CustomError'
+		this.foo = 'bar'
+	}
 }
 const customAggregateError = new AggregateError<CustomError>([
-	new Error('foo')
+	new CustomError('foo')
 ]);
 
 for (const error of customAggregateError) {
