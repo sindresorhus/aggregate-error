@@ -18,8 +18,8 @@ class CustomError extends Error {
 
 	constructor(message: string) {
 		super(message)
-		this.name = 'CustomError'
-		this.foo = 'bar'
+		this.name = 'CustomError';
+		this.foo = 'bar';
 	}
 }
 const customAggregateError = new AggregateError<CustomError>([
