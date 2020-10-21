@@ -2,6 +2,8 @@
 
 > Create an error from multiple errors
 
+*Note: With [Node.js 15](https://medium.com/@nodejs/node-js-v15-0-0-is-here-deb00750f278), there's now a built-in [`AggregateError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AggregateError) type.*
+
 
 ## Install
 
