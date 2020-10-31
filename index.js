@@ -10,7 +10,7 @@ class AggregateError extends Error {
 			throw new TypeError(`Expected input to be an Array, got ${typeof errors}`);
 		}
 
-		errors = [...errors].map(error => {
+		errors = errors.map(error => {
 			if (error instanceof Error) {
 				return error;
 			}
