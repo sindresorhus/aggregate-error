@@ -1,4 +1,4 @@
-# aggregate-error [![Build Status](https://travis-ci.org/sindresorhus/aggregate-error.svg?branch=master)](https://travis-ci.org/sindresorhus/aggregate-error)
+# aggregate-error
 
 > Create an error from multiple errors
 
