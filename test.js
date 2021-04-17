@@ -1,5 +1,5 @@
 import test from 'ava';
-import AggregateError from '.';
+import AggregateError from './index.js';
 
 test('main', t => {
 	const error = new AggregateError([
@@ -23,7 +23,7 @@ test('main', t => {
 		new Error('foo'),
 		new Error('bar'),
 		Object.assign(new Error('baz'), {code: 'EBAZ'}),
-		Object.assign(new Error(), {code: 'EQUX'})
+		Object.assign(new Error(), {code: 'EQUX'}) // eslint-disable-line unicorn/error-message
 	]);
 });
 

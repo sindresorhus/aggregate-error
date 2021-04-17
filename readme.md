@@ -4,18 +4,16 @@
 
 *Note: With [Node.js 15](https://medium.com/@nodejs/node-js-v15-0-0-is-here-deb00750f278), there's now a built-in [`AggregateError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AggregateError) type.*
 
-
 ## Install
 
 ```
 $ npm install aggregate-error
 ```
 
-
 ## Usage
 
 ```js
-const AggregateError = require('aggregate-error');
+import AggregateError from 'aggregate-error';
 
 const error = new AggregateError([new Error('foo'), 'bar', {message: 'baz'}]);
 
@@ -48,7 +46,6 @@ for (const individualError of error) {
 //=> [Error: baz]
 ```
 
-
 ## API
 
 ### AggregateError(errors)
@@ -57,7 +54,7 @@ Returns an `Error` that is also an [`Iterable`](https://developer.mozilla.org/en
 
 #### errors
 
-Type: `Array<Error|Object|string>`
+Type: `Array<Error|object|string>`
 
-If a string, a new `Error` is created with the string as the error message.<br>
+If a string, a new `Error` is created with the string as the error message.\
 If a non-Error object, a new `Error` is created with all properties from the object copied over.

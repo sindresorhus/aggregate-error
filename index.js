@@ -1,10 +1,9 @@
-'use strict';
-const indentString = require('indent-string');
-const cleanStack = require('clean-stack');
+import indentString from 'indent-string';
+import cleanStack from 'clean-stack';
 
 const cleanInternalStack = stack => stack.replace(/\s+at .*aggregate-error\/index.js:\d+:\d+\)?/g, '');
 
-class AggregateError extends Error {
+export default class AggregateError extends Error {
 	constructor(errors) {
 		if (!Array.isArray(errors)) {
 			throw new TypeError(`Expected input to be an Array, got ${typeof errors}`);
@@ -34,6 +33,7 @@ class AggregateError extends Error {
 
 		this.name = 'AggregateError';
 
+		// TODO: Use private class field for this when ESLint support class fields.
 		Object.defineProperty(this, '_errors', {value: errors});
 	}
 
@@ -43,5 +43,3 @@ class AggregateError extends Error {
 		}
 	}
 }
-
-module.exports = AggregateError;

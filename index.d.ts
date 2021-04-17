@@ -1,7 +1,7 @@
 /**
 Create an error from multiple errors.
 */
-declare class AggregateError<T extends Error = Error> extends Error implements Iterable<T> {
+export default class AggregateError<T extends Error = Error> extends Error implements Iterable<T> {
 	readonly name: 'AggregateError';
 
 	/**
@@ -10,7 +10,7 @@ declare class AggregateError<T extends Error = Error> extends Error implements I
 
 	@example
 	```
-	import AggregateError = require('aggregate-error');
+	import AggregateError from 'aggregate-error';
 
 	const error = new AggregateError([new Error('foo'), 'bar', {message: 'baz'}]);
 
@@ -34,7 +34,6 @@ declare class AggregateError<T extends Error = Error> extends Error implements I
 	//	at run (bootstrap_node.js:394:7)
 	//	at startup (bootstrap_node.js:149:9)
 
-
 	for (const individualError of error) {
 		console.log(individualError);
 	}
@@ -43,9 +42,7 @@ declare class AggregateError<T extends Error = Error> extends Error implements I
 	//=> [Error: baz]
 	```
 	*/
-	constructor(errors: ReadonlyArray<T | {[key: string]: any} | string>);
+	constructor(errors: ReadonlyArray<T | Record<string, any> | string>);
 
 	[Symbol.iterator](): IterableIterator<T>;
 }
-
-export = AggregateError;
