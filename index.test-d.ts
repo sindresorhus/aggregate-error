@@ -6,10 +6,10 @@ const aggregateError = new AggregateError([
 	{foo: 'bar'},
 	'bar'
 ]);
-expectAssignable<Iterable<Error>>(aggregateError);
-expectType<IterableIterator<Error>>(aggregateError[Symbol.iterator]());
+expectAssignable<Iterable<Error>>(aggregateError.errors);
+expectType<IterableIterator<Error>>(aggregateError.errors[Symbol.iterator]());
 
-for (const error of aggregateError) {
+for (const error of aggregateError.errors) {
 	expectType<Error>(error);
 }
 
@@ -26,6 +26,6 @@ const customAggregateError = new AggregateError<CustomError>([
 	new CustomError('foo')
 ]);
 
-for (const error of customAggregateError) {
+for (const error of customAggregateError.errors) {
 	expectType<string>(error.foo);
 }

@@ -38,7 +38,7 @@ AggregateError:
     at startup (bootstrap_node.js:149:9)
 */
 
-for (const individualError of error) {
+for (const individualError of error.errors) {
 	console.log(individualError);
 }
 //=> [Error: foo]
@@ -50,7 +50,7 @@ for (const individualError of error) {
 
 ### AggregateError(errors)
 
-Returns an `Error` that is also an [`Iterable`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators#Iterables) for the individual errors.
+Returns an `Error`.
 
 #### errors
 

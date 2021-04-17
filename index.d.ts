@@ -1,12 +1,13 @@
 /**
 Create an error from multiple errors.
 */
-export default class AggregateError<T extends Error = Error> extends Error implements Iterable<T> {
+export default class AggregateError<T extends Error = Error> extends Error {
 	readonly name: 'AggregateError';
+
+	readonly errors: readonly [T];
 
 	/**
 	@param errors - If a string, a new `Error` is created with the string as the error message. If a non-Error object, a new `Error` is created with all properties from the object copied over.
-	@returns An Error that is also an [`Iterable`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators#Iterables) for the individual errors.
 
 	@example
 	```
@@ -34,7 +35,7 @@ export default class AggregateError<T extends Error = Error> extends Error imple
 	//	at run (bootstrap_node.js:394:7)
 	//	at startup (bootstrap_node.js:149:9)
 
-	for (const individualError of error) {
+	for (const individualError of error.errors) {
 		console.log(individualError);
 	}
 	//=> [Error: foo]
@@ -43,6 +44,4 @@ export default class AggregateError<T extends Error = Error> extends Error imple
 	```
 	*/
 	constructor(errors: ReadonlyArray<T | Record<string, any> | string>);
-
-	[Symbol.iterator](): IterableIterator<T>;
 }

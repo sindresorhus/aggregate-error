@@ -19,7 +19,7 @@ test('main', t => {
 	t.regex(error.message, /Error: foo\n {8}at /);
 	t.regex(error.message, /Error: bar\n {8}at /);
 
-	t.deepEqual([...error], [
+	t.deepEqual([...error.errors], [
 		new Error('foo'),
 		new Error('bar'),
 		Object.assign(new Error('baz'), {code: 'EBAZ'}),
@@ -46,7 +46,7 @@ test('gracefully handle Error instances without a stack', t => {
 	t.regex(error.message, /Error: foo\n {8}at /);
 	t.regex(error.message, /StacklessError: stackless/);
 
-	t.deepEqual([...error], [
+	t.deepEqual([...error.errors], [
 		new Error('foo'),
 		new StacklessError('stackless')
 	]);
