@@ -29,7 +29,7 @@ export default class AggregateError extends Error {
 		let message = errors
 			.map(error => {
 				// The `stack` property is not standardized, so we can't assume it exists
-				return typeof error.stack === 'string' ? cleanInternalStack(cleanStack(error.stack)) : String(error);
+				return error.stack && typeof error.stack === 'string' ? cleanInternalStack(cleanStack(error.stack)) : String(error);
 			})
 			.join('\n');
 		message = '\n' + indentString(message, 4);
