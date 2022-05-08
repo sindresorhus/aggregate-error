@@ -51,3 +51,28 @@ test('gracefully handle Error instances without a stack', t => {
 		new StacklessError('stackless')
 	]);
 });
+
+test('gracefully handle Error instances with empty stack', t => {
+	class EmptyStackError extends Error {
+		constructor(...args) {
+			super(...args);
+			this.name = this.constructor.name;
+			this.stack = '';
+		}
+	}
+
+	const error = new AggregateError([
+		new Error('foo'),
+		new EmptyStackError('emptystack')
+	]);
+
+	console.log(error);
+
+	t.regex(error.message, /Error: foo\n {8}at /);
+	t.regex(error.message, /EmptyStackError: emptystack/);
+
+	t.deepEqual([...error.errors], [
+		new Error('foo'),
+		new EmptyStackError('emptystack')
+	]);
+});
