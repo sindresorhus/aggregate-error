@@ -1,7 +1,7 @@
 import indentString from 'indent-string';
 import cleanStack from 'clean-stack';
 
-const cleanInternalStack = stack => stack.replace(/\s+at .*aggregate-error\/index.js:\d+:\d+\)?/g, '');
+const cleanInternalStack = stack => stack.replaceAll(/\s+at .*aggregate-error\/index.js:\d+:\d+\)?/g, '');
 
 export default class AggregateError extends Error {
 	#errors;
@@ -27,10 +27,10 @@ export default class AggregateError extends Error {
 		});
 
 		let message = errors
-			.map(error => {
+			.map(error =>
 				// The `stack` property is not standardized, so we can't assume it exists
-				return typeof error.stack === 'string' && error.stack.length > 0 ? cleanInternalStack(cleanStack(error.stack)) : String(error);
-			})
+				typeof error.stack === 'string' && error.stack.length > 0 ? cleanInternalStack(cleanStack(error.stack)) : String(error),
+			)
 			.join('\n');
 		message = '\n' + indentString(message, 4);
 		super(message);
@@ -39,6 +39,6 @@ export default class AggregateError extends Error {
 	}
 
 	get errors() {
-		return this.#errors.slice();
+		return [...this.#errors];
 	}
 }

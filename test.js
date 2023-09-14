@@ -7,11 +7,11 @@ test('main', t => {
 		'bar',
 		{
 			message: 'baz',
-			code: 'EBAZ'
+			code: 'EBAZ',
 		},
 		{
-			code: 'EQUX'
-		}
+			code: 'EQUX',
+		},
 	]);
 
 	console.log(error);
@@ -23,7 +23,7 @@ test('main', t => {
 		new Error('foo'),
 		new Error('bar'),
 		Object.assign(new Error('baz'), {code: 'EBAZ'}),
-		Object.assign(new Error(), {code: 'EQUX'}) // eslint-disable-line unicorn/error-message
+		Object.assign(new Error(), {code: 'EQUX'}), // eslint-disable-line unicorn/error-message
 	]);
 });
 
@@ -38,7 +38,7 @@ test('gracefully handle Error instances without a stack', t => {
 
 	const error = new AggregateError([
 		new Error('foo'),
-		new StacklessError('stackless')
+		new StacklessError('stackless'),
 	]);
 
 	console.log(error);
@@ -48,7 +48,7 @@ test('gracefully handle Error instances without a stack', t => {
 
 	t.deepEqual([...error.errors], [
 		new Error('foo'),
-		new StacklessError('stackless')
+		new StacklessError('stackless'),
 	]);
 });
 
@@ -63,7 +63,7 @@ test('gracefully handle Error instances with empty stack', t => {
 
 	const error = new AggregateError([
 		new Error('foo'),
-		new EmptyStackError('emptystack')
+		new EmptyStackError('emptystack'),
 	]);
 
 	console.log(error);
@@ -73,6 +73,6 @@ test('gracefully handle Error instances with empty stack', t => {
 
 	t.deepEqual([...error.errors], [
 		new Error('foo'),
-		new EmptyStackError('emptystack')
+		new EmptyStackError('emptystack'),
 	]);
 });

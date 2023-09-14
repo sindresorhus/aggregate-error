@@ -6,8 +6,8 @@
 
 ## Install
 
-```
-$ npm install aggregate-error
+```sh
+npm install aggregate-error
 ```
 
 ## Usage

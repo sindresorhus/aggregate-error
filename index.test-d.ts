@@ -4,7 +4,7 @@ import AggregateError from './index.js';
 const aggregateError = new AggregateError([
 	new Error('foo'),
 	{foo: 'bar'},
-	'bar'
+	'bar',
 ]);
 expectAssignable<Iterable<Error>>(aggregateError.errors);
 expectType<IterableIterator<Error>>(aggregateError.errors[Symbol.iterator]());
@@ -23,7 +23,7 @@ class CustomError extends Error {
 	}
 }
 const customAggregateError = new AggregateError<CustomError>([
-	new CustomError('foo')
+	new CustomError('foo'),
 ]);
 
 for (const error of customAggregateError.errors) {
