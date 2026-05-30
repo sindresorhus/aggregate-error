@@ -26,7 +26,7 @@ export default class AggregateError extends Error {
 			return new Error(error);
 		});
 
-		let message = errors
+		let message = messageOption || errors
 			.map(error =>
 				// The `stack` property is not standardized, so we can't assume it exists
 				typeof error.stack === 'string' && error.stack.length > 0 ? cleanInternalStack(cleanStack(error.stack)) : String(error),
