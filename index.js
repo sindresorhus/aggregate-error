@@ -3,12 +3,11 @@ import cleanStack from 'clean-stack';
 
 const cleanInternalStack = stack => stack
 	.split('\n')
-	.filter(line => !/^\s+at .*aggregate-error\/index\.js:\d+:\d+\)?$/.test(line))
+	.filter(line => !/^\s+at .*aggregate-error\/index\.js:\d+:\d+\)?$/v.test(line))
 	.join('\n');
 
 export default class AggregateError extends Error {
 	#errors;
-
 	name = 'AggregateError';
 
 	constructor(errors) {
@@ -21,12 +20,8 @@ export default class AggregateError extends Error {
 				return error;
 			}
 
-			if (error !== null && typeof error === 'object') {
-				// Handle plain error objects with message property and/or possibly other metadata
-				return Object.assign(new Error(error.message), error);
-			}
-
-			return new Error(error);
+			// Handle plain error objects with message property and/or possibly other metadata
+			return error !== null && typeof error === 'object' ? Object.assign(new Error(error.message), error) : new Error(error);
 		});
 
 		let message = errors

@@ -21,26 +21,18 @@ export default class AggregateError<T extends Error = Error> extends Error {
 	//	Error: foo
 	//		at Object.<anonymous> (/Users/sindresorhus/dev/aggregate-error/example.js:3:33)
 	//	Error: bar
+	//		at Array.map (<anonymous>)
 	//		at Object.<anonymous> (/Users/sindresorhus/dev/aggregate-error/example.js:3:13)
 	//	Error: baz
+	//		at Array.map (<anonymous>)
 	//		at Object.<anonymous> (/Users/sindresorhus/dev/aggregate-error/example.js:3:13)
-	//	at AggregateError (/Users/sindresorhus/dev/aggregate-error/index.js:19:3)
-	//	at Object.<anonymous> (/Users/sindresorhus/dev/aggregate-error/example.js:3:13)
-	//	at Module._compile (module.js:556:32)
-	//	at Object.Module._extensions..js (module.js:565:10)
-	//	at Module.load (module.js:473:32)
-	//	at tryModuleLoad (module.js:432:12)
-	//	at Function.Module._load (module.js:424:3)
-	//	at Module.runMain (module.js:590:10)
-	//	at run (bootstrap_node.js:394:7)
-	//	at startup (bootstrap_node.js:149:9)
 
 	for (const individualError of error.errors) {
-		console.log(individualError);
+		console.log(individualError.message);
 	}
-	//=> [Error: foo]
-	//=> [Error: bar]
-	//=> [Error: baz]
+	//=> foo
+	//=> bar
+	//=> baz
 	```
 	*/
 	constructor(errors: ReadonlyArray<T | Record<string, any> | string>);

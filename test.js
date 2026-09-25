@@ -1,7 +1,8 @@
-import test from 'ava';
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
 import AggregateError from './index.js';
 
-test('main', t => {
+test('handles a mix of errors, strings, and plain objects', () => {
 	const error = new AggregateError([
 		new Error('foo'),
 		'bar',
@@ -16,10 +17,10 @@ test('main', t => {
 
 	console.log(error);
 
-	t.regex(error.message, /Error: foo\n {8}at /);
-	t.regex(error.message, /Error: bar\n {8}at /);
+	assert.match(error.message, /Error: foo\n {8}at /v);
+	assert.match(error.message, /Error: bar\n {8}at /v);
 
-	t.deepEqual([...error.errors], [
+	assert.deepEqual([...error.errors], [
 		new Error('foo'),
 		new Error('bar'),
 		Object.assign(new Error('baz'), {code: 'EBAZ'}),
@@ -27,7 +28,7 @@ test('main', t => {
 	]);
 });
 
-test('gracefully handle Error instances without a stack', t => {
+test('gracefully handle Error instances without a stack', () => {
 	class StacklessError extends Error {
 		constructor(...args) {
 			super(...args);
@@ -43,16 +44,16 @@ test('gracefully handle Error instances without a stack', t => {
 
 	console.log(error);
 
-	t.regex(error.message, /Error: foo\n {8}at /);
-	t.regex(error.message, /StacklessError: stackless/);
+	assert.match(error.message, /Error: foo\n {8}at /v);
+	assert.match(error.message, /StacklessError: stackless/v);
 
-	t.deepEqual([...error.errors], [
+	assert.deepEqual([...error.errors], [
 		new Error('foo'),
 		new StacklessError('stackless'),
 	]);
 });
 
-test('gracefully handle Error instances with empty stack', t => {
+test('gracefully handle Error instances with empty stack', () => {
 	class EmptyStackError extends Error {
 		constructor(...args) {
 			super(...args);
@@ -68,26 +69,27 @@ test('gracefully handle Error instances with empty stack', t => {
 
 	console.log(error);
 
-	t.regex(error.message, /Error: foo\n {8}at /);
-	t.regex(error.message, /EmptyStackError: emptystack/);
+	assert.match(error.message, /Error: foo\n {8}at /v);
+	assert.match(error.message, /EmptyStackError: emptystack/v);
 
-	t.deepEqual([...error.errors], [
+	assert.deepEqual([...error.errors], [
 		new Error('foo'),
 		new EmptyStackError('emptystack'),
 	]);
 });
 
-test('strips internal aggregate-error frames from the message', t => {
+test('strips internal aggregate-error frames from the message', () => {
 	const error = new AggregateError([new Error('foo')]);
 
-	t.notRegex(error.message, /aggregate-error\/index\.js/);
+	assert.doesNotMatch(error.message, /aggregate-error\/index\.js/v);
 });
 
-test('handles pathological stack input in linear time', t => {
+test('handles pathological stack input in linear time', () => {
 	// Guards against a super-linear regex in the internal stack cleaner.
 	const error = new Error(' at '.repeat(200_000));
 
 	const start = performance.now();
-	new AggregateError([error]); // eslint-disable-line no-new
-	t.true(performance.now() - start < 1000);
+	// eslint-disable-next-line no-new
+	new AggregateError([error]);
+	assert.ok(performance.now() - start < 1000);
 });
