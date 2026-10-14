@@ -1,7 +1,10 @@
 import indentString from 'indent-string';
 import cleanStack from 'clean-stack';
 
-const cleanInternalStack = stack => stack.replaceAll(/\s+at .*aggregate-error\/index.js:\d+:\d+\)?/g, '');
+const cleanInternalStack = stack => stack
+	.split('\n')
+	.filter(line => !/^\s+at .*aggregate-error\/index\.js:\d+:\d+\)?$/.test(line))
+	.join('\n');
 
 export default class AggregateError extends Error {
 	#errors;

@@ -76,3 +76,18 @@ test('gracefully handle Error instances with empty stack', t => {
 		new EmptyStackError('emptystack'),
 	]);
 });
+
+test('strips internal aggregate-error frames from the message', t => {
+	const error = new AggregateError([new Error('foo')]);
+
+	t.notRegex(error.message, /aggregate-error\/index\.js/);
+});
+
+test('handles pathological stack input in linear time', t => {
+	// Guards against a super-linear regex in the internal stack cleaner.
+	const error = new Error(' at '.repeat(200_000));
+
+	const start = performance.now();
+	new AggregateError([error]); // eslint-disable-line no-new
+	t.true(performance.now() - start < 1000);
+});
